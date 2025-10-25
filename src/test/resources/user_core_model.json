@@ -1,0 +1,28 @@
+{
+	"metadata": {
+		"name": "User",
+		"version": "1.0.0"
+	},
+	"fields": {
+		"id": {
+			"type": "integer",
+			"description": "Main index",
+			"required": true
+		},
+		"userName": {
+			"type": "string",
+			"description": "Login name",
+			"required": true
+		},
+		"firstName": {
+			"type": "string",
+			"description": "First name",
+			"required": false
+		},
+		"secondName": {
+			"type": "string",
+			"description": "Second name",
+			"required": false
+		}
+	}
+}

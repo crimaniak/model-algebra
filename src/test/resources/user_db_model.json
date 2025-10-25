@@ -1,0 +1,17 @@
+{
+	"metadata": {
+		"name": "User db model",
+		"version": "1.0.0",
+		"tableName": "users",
+		"tableType": "InnoDB"
+	},
+	"fields": {
+		"id": {
+			"primaryKey": true
+		},
+		"userName": {
+			"dbType": "varchar(25)",
+			"constraints": "NOT NULL UNIQUE"
+		}
+	}
+}
