@@ -10,8 +10,6 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
 public class ModelTest
@@ -30,7 +28,7 @@ public class ModelTest
 	
 	
 	@Test
-	public void smokeTest() throws IOException
+	public void smokeTest() throws IOException, InvalidArgumentException
 	{
 		// Load string from resource file src/test/resources/json_to_read.json
 		String json = ResourceLoader.loadResourceAsString(ResourceUrl.user_core_model);
@@ -58,7 +56,7 @@ public class ModelTest
 	}
 	
 	@Test
-	public void testFromIModel()
+	public void testFromIModel() throws InvalidArgumentException
     {
         IModel coreModel = Model.from(user_core_string);
         IModel modelFromIModel = Model.from(coreModel);
@@ -66,7 +64,7 @@ public class ModelTest
     }
 	
 	@Test
-	public void testFromJsonNode() throws JsonMappingException, JsonProcessingException
+	public void testFromJsonNode() throws InvalidArgumentException
 	{
 		IModel coreModel = Model.from(user_core_string);
 		var coreJsonNode = JsonUtils.string2node(user_core_string);
@@ -78,21 +76,28 @@ public class ModelTest
 	public void testFromInvalidJson()
 	{
 		String invalidJson = "{ invalid json }";
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () ->
+		assertThrows(InvalidArgumentException.class, () ->
 		{
 			Model.from(invalidJson);
 		});
-		assertTrue(thrown.getMessage().contains("Invalid JSON input"));
 	}
 	
-	/*
 	@Test
-	public void testAdd()
+	public void testToJson() throws InvalidArgumentException
+	{
+		IModel coreModel = Model.from(user_core_string);
+		String json = coreModel.toJson();
+		assertEquals(user_core_string.replaceAll("\\s+", ""), json.replaceAll("\\s+", ""));
+	}
+	
+	
+	// not ready yet @Test
+	public void testAdd() throws InvalidArgumentException
 	{
 		IModel sum = Model.from(user_core_string).add(Model.from(user_extended_string));
-		sum.fields().map(field -> field.getName()).forEach(name -> {
+		sum.fieldsAsStream().map(field -> field.getName()).forEach(name -> {
             System.out.println("Field: " + name);
         });
 	}
-	*/
+	
 }

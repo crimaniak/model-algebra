@@ -1,88 +1,91 @@
 package org.aljabr;
 
 import java.util.Map;
+import java.util.stream.Stream;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class Model implements IModel
 {
-	protected JsonNode root;
+	protected final JsonNode root;
 	
-	private Map<String, JsonNode> metadata = null;
-	private Map<String, JsonNode> fields = null;
+	private final Map<String, JsonNode> metadata;
+	private final Map<String, JsonNode> fields;
 
-	public Model(JsonNode node) throws JsonProcessingException
+	public Model(JsonNode node) throws InvalidArgumentException
 	{
 		this.root = node;
 		this.fields = JsonUtils.node2map(root.get("fields"));
 		this.metadata = JsonUtils.node2map(root.get("metadata"));
 	}
 
-	public Model(String json)
+	public Model(String json) throws InvalidArgumentException
 	{
-		try {
-			root = JsonUtils.string2node(json);
-		} catch (JsonProcessingException e) {
-			throw new IllegalArgumentException("Invalid JSON input", e);
-		}
+		this(JsonUtils.string2node(json));
 	}
 
-	public static Model from(String json)
+	public static Model from(String json) throws InvalidArgumentException
 	{
 		return new Model(json);
 	}
 
-	public static Model from(JsonNode json) throws JsonProcessingException
+	public static Model from(JsonNode json) throws InvalidArgumentException
 	{
 		return new Model(json);
 	}
 	
-	public static Model from(IModel source)
+	public static Model from(IModel source) throws InvalidArgumentException
 	{
 		return new Model(source.toJson());
 	}
-	
 
 	@Override
-	public String toJson()
+	public String toJson() throws InvalidArgumentException
 	{
-		try
-		{
-			return JsonUtils.node2string(root);
-		} catch (JsonProcessingException e)
-		{
-			e.printStackTrace();
-			return null;
-		}
+		return JsonUtils.node2string(root);
 	}
 
 	@Override
+	public Stream<Field> fieldsAsStream()
+    {
+		return this.fields.entrySet().stream().map(entry -> new Field(entry.getKey(), entry.getValue()));
+	}
+
+	@Override
+	public Map<String, Field> fieldsAsMap()
+    {
+		return fieldsAsStream().collect(java.util.stream.Collectors.toMap(Field::getName, field -> field));
+    }
+
+	@Override
+	public Map<String, JsonNode> getMetadata()
+    {
+        return this.metadata;
+    }
+	
+	@Override
 	public IModel add(IModel m)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		
+		throw new UnsupportedOperationException("Unimplemented method 'add'");
 	}
 
 	@Override
 	public IModel sub(IModel m)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Unimplemented method 'sub'");
 	}
 
 	@Override
 	public IModel overrideFrom(IModel m)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Unimplemented method 'overrideFrom'");	
 	}
 
 	@Override
 	public IModel enrichFrom(IModel m)
 	{
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("Unimplemented method 'enrichFrom'");
 	}
 
 }

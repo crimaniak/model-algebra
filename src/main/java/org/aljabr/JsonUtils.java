@@ -3,6 +3,7 @@ package org.aljabr;
 import java.util.Map;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -18,18 +19,33 @@ abstract public class JsonUtils
 		// prevent instantiation
 	}
 
-	public static JsonNode string2node(String json) throws JsonMappingException, JsonProcessingException
+	public static JsonNode string2node(String json) throws InvalidArgumentException
 	{
-		return mapperFrom.readTree(json);
+			try
+			{
+				return mapperFrom.readTree(json);
+			} catch (JsonMappingException e)
+			{
+				throw new InvalidArgumentException("Invalid JSON mapping", e);
+			} catch (JsonProcessingException e)
+			{
+				throw new InvalidArgumentException("Invalid JSON processing", e);
+			}
 	}
 
-	public static String node2string(JsonNode node) throws JsonProcessingException
+	public static String node2string(JsonNode node) throws InvalidArgumentException
 	{
-		return mapperTo.writeValueAsString(node);
+		try
+		{
+			return mapperTo.writeValueAsString(node);
+		} catch (JsonProcessingException e)
+		{
+			throw new InvalidArgumentException("Invalid JSON node", e);
+		}
 	}
 	
-	public static Map<String, JsonNode> node2map(JsonNode node) throws JsonProcessingException
+	public static Map<String, JsonNode> node2map(JsonNode node)
 	{
-		return mapperFrom.convertValue(node, Map.class);
+		return mapperFrom.convertValue(node, new TypeReference<Map<String, JsonNode>>() {});
 	}
 }
