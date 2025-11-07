@@ -29,6 +29,7 @@ public class JsonUtilsTest
 		JsonNode convertedNode = JsonUtils.string2node(convertedString);
 		assertEquals(node, convertedNode);
 	}
+	
 	@Test
 	public void testInvalidJsonString()
 	{
@@ -39,6 +40,4 @@ public class JsonUtilsTest
 			JsonUtils.string2node(invalidJsonString);
 		});
 	}
-	
-	
 }

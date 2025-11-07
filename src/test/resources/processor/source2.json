@@ -1,0 +1,10 @@
+{
+	"field3": true,
+	"field4": ["item4", "item5"],
+	"nestedField": {
+		"subField2": 2.71,
+		"subField3": "subValue3"
+	},
+	"field5": "newValue",
+	"field6": 100
+}
