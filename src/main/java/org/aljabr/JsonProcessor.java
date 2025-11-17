@@ -73,7 +73,7 @@ public class JsonProcessor
 		Set<String> sourceFields = getFieldNames(source);
 		Set<String> resultFields = operation.combine(targetFields, sourceFields);
 		
-		JsonNode result = new ObjectNode(JsonNodeFactory.instance);
+		ObjectNode result = new ObjectNode(JsonNodeFactory.instance);
 		for (String field : resultFields)
 		{
 			JsonNode targetValue = target.get(field);
@@ -82,19 +82,12 @@ public class JsonProcessor
 			if (targetValue != null && sourceValue != null)
 			{
 				if (targetValue.isObject() && sourceValue.isObject())
-				{
-					((ObjectNode) result).set(field, processLevel(targetValue, sourceValue, operation));
-				} else
-				{
-					((ObjectNode) result).set(field, targetValue);
-				}
-			} else if (targetValue != null)
-			{
-				((ObjectNode) result).set(field, targetValue);
-			} else if (sourceValue != null)
-			{
-				((ObjectNode) result).set(field, sourceValue);
-			}
+					result.set(field, processLevel(targetValue, sourceValue, operation));
+				else
+					result.set(field, targetValue);
+			} else 
+				result.set(field, targetValue != null ? targetValue : sourceValue);
+			
 		}
 		return result;
 	}

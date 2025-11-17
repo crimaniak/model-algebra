@@ -44,8 +44,14 @@ abstract public class JsonUtils
 		}
 	}
 	
-	public static Map<String, JsonNode> node2map(JsonNode node)
+	public static Map<String, JsonNode> node2map(JsonNode node) throws InvalidArgumentException
 	{
-		return mapperFrom.convertValue(node, new TypeReference<Map<String, JsonNode>>() {});
+		try 
+		{
+			return mapperFrom.convertValue(node, new TypeReference<Map<String, JsonNode>>() {});
+		} catch (IllegalArgumentException e)
+		{
+			throw new InvalidArgumentException("Invalid JSON processing", e);
+		}
 	}
 }

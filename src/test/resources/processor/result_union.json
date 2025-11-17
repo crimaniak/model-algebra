@@ -13,5 +13,9 @@
 		"subField3": "subValue3"
 	},
 	"field5": "newValue",
-	"field6": 100
+	"field6": 100,
+	"nestedField2": {
+		"subFieldA": "subValueA"
+	},
+	"nestedField3":"not nested in fact"
 }

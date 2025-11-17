@@ -1,3 +1,5 @@
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.io.IOException;
 
 import org.aljabr.InvalidArgumentException;
@@ -39,16 +41,16 @@ public class JsonProcessorTest
 		JsonProcessor processor = new JsonProcessor();
 
 		JsonNode unionResult = processor.processLevel(source1, source2, JsonProcessor.Operation.UNION);
-		assert unionResult.equals(JsonUtils.string2node(result_union_string));
+		assertEquals(JsonUtils.string2node(result_union_string), unionResult);
 
 		JsonNode subtractionResult = processor.processLevel(source1, source2, JsonProcessor.Operation.SUBTRACTION);
-		assert subtractionResult.equals(JsonUtils.string2node(result_subtraction_string));
+		assertEquals(JsonUtils.string2node(result_subtraction_string), subtractionResult);
 		
 		JsonNode intersectionResult = processor.processLevel(source1, source2, JsonProcessor.Operation.INTERSECTION);
-		assert intersectionResult.equals(JsonUtils.string2node(result_intersection_string));
+		assertEquals(JsonUtils.string2node(result_intersection_string), intersectionResult);
 		
 		JsonNode xorResult = processor.processLevel(source1, source2, JsonProcessor.Operation.XOR);
-		assert xorResult.equals(JsonUtils.string2node(result_xor_string));
+		assertEquals(JsonUtils.string2node(result_xor_string), xorResult);
 		
 	}
 	

@@ -3,5 +3,9 @@
 	"field4": ["item1", "item2", "item3"],
 	"nestedField": {
 		"subField2": 3.14
-	}
+	},
+	"nestedField2": {
+		"subFieldA": "subValueA"
+	},
+	"nestedField3":"not nested in fact"
 }
