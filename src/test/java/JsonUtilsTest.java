@@ -2,15 +2,16 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
+import org.aljabr.InvalidArgumentException;
 import org.aljabr.JsonUtils;
 import org.junit.jupiter.api.Test;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
-public class JsonUtilsTest
+class JsonUtilsTest
 {
 	@Test
-	public void testStringToNodeAndBack() throws Exception
+	void testStringToNodeAndBack() throws Exception
 	{
 		String jsonString = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\"}";
 
@@ -31,7 +32,7 @@ public class JsonUtilsTest
 	}
 	
 	@Test
-	public void testInvalidJsonString()
+	void testInvalidJsonString()
 	{
 		String invalidJsonString = "{\"name\":\"John\",\"age\":30,\"city\":\"New York\""; // Missing closing brace
 		
@@ -40,4 +41,35 @@ public class JsonUtilsTest
 			JsonUtils.string2node(invalidJsonString);
 		});
 	}
+	
+	@Test
+	void testNullInputForStringToNode()
+	{
+		assertThrows(IllegalArgumentException.class, () ->
+		{
+			JsonUtils.string2node(null);
+		});
+	}
+
+	@Test
+	void testIncompleteJsonString()
+	{
+		String incompleteJsonString = "{\"name\":\"John\",\"age\":30"; // Missing closing brace and city field
+
+		assertThrows(Exception.class, () ->
+		{
+			JsonUtils.string2node(incompleteJsonString);
+		});
+	}
+	
+	@Test
+	void testNode2MapInvalidInput() throws InvalidArgumentException
+	{
+		var input = JsonUtils.string2node("[1,2,3]");
+		assertThrows(Exception.class, () ->
+		{
+			JsonUtils.node2map(input);
+		});
+	}
+
 }
