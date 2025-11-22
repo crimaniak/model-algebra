@@ -36,7 +36,7 @@ public class JsonProcessorTest
 	}
 	
 	@Test
-    public void testProcessLevel() throws InvalidArgumentException 
+    void testProcessLevel() throws InvalidArgumentException 
 	{
 		JsonProcessor processor = new JsonProcessor();
 

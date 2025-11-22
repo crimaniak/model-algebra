@@ -8,13 +8,13 @@ import java.util.Map;
 
 import org.junit.jupiter.api.Test;
 
-public class FieldTest
+class FieldTest
 {
 	
 	private static final com.fasterxml.jackson.databind.ObjectMapper mapper = new com.fasterxml.jackson.databind.ObjectMapper();
 	
 	@Test
-    public void testFieldCreation()
+    void testFieldCreation()
     {
         Map<String, JsonNode> attributes = Map.of("key1", new TextNode("value1"), "key2", new TextNode("value2"));
         Field field = new Field("testField", "String", attributes);

@@ -8,18 +8,18 @@ import java.io.IOException;
 
 import org.junit.jupiter.api.Test;
 
-public class ResourceLoaderTest
+class ResourceLoaderTest
 {
 	@Test
-	public void testLoadResourceAsString() throws IOException
+	void testLoadResourceAsString() throws IOException
 	{
 		String resourceContent = ResourceLoader.loadResourceAsString(ResourceUrl.user_core_model);
 		assertNotNull(resourceContent);
-		assertTrue(resourceContent.length() > 0);
+		assertTrue(!resourceContent.isEmpty());
 	}
 	
 	@Test
-	public void testNonExistingResource() throws IOException {
+	void testNonExistingResource() {
 		assertThrows(IOException.class, () ->
 		{
 			ResourceLoader.loadResourceAsString("non_existing_resource.json");
