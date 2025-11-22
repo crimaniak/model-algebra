@@ -28,12 +28,12 @@ public class ModelTest
 	
 	
 	@Test
-	public void smokeTest() throws IOException, InvalidArgumentException
+	void smokeTest() throws IOException, InvalidArgumentException
 	{
 		// Load string from resource file src/test/resources/json_to_read.json
 		String json = ResourceLoader.loadResourceAsString(ResourceUrl.user_core_model);
 		assertNotNull(json);
-		assertTrue(json.length() > 0);
+		assertTrue(!json.isEmpty());
 		
 		// Get source Json as JsonNode
 		var sourceJson = JsonUtils.string2node(json);
@@ -56,7 +56,7 @@ public class ModelTest
 	}
 	
 	@Test
-	public void testFromIModel() throws InvalidArgumentException
+	void testFromIModel() throws InvalidArgumentException
     {
         IModel coreModel = Model.from(user_core_string);
         IModel modelFromIModel = Model.from(coreModel);
@@ -64,7 +64,7 @@ public class ModelTest
     }
 	
 	@Test
-	public void testFromJsonNode() throws InvalidArgumentException
+	void testFromJsonNode() throws InvalidArgumentException
 	{
 		IModel coreModel = Model.from(user_core_string);
 		var coreJsonNode = JsonUtils.string2node(user_core_string);
@@ -73,7 +73,7 @@ public class ModelTest
 	}
 	
 	@Test
-	public void testFromInvalidJson()
+	void testFromInvalidJson()
 	{
 		String invalidJson = "{ invalid json }";
 		assertThrows(InvalidArgumentException.class, () ->
@@ -83,7 +83,7 @@ public class ModelTest
 	}
 	
 	@Test
-	public void testToJson() throws InvalidArgumentException
+	void testToJson() throws InvalidArgumentException
 	{
 		IModel coreModel = Model.from(user_core_string);
 		String json = coreModel.toJson();
