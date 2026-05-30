@@ -64,29 +64,41 @@ public class Model implements IModel
         return this.metadata;
     }
 	
+	private IModel applyOperation(IModel m, JsonProcessor.Operation operation)
+	{
+		try
+		{
+			JsonNode otherRoot = JsonUtils.string2node(m.toJson());
+			JsonNode resultNode = new JsonProcessor().processLevel(this.root, otherRoot, operation);
+			return new Model(resultNode);
+		} catch (InvalidArgumentException e)
+		{
+			throw new RuntimeException(e);
+		}
+	}
+
 	@Override
 	public IModel add(IModel m)
 	{
-		
-		throw new UnsupportedOperationException("Unimplemented method 'add'");
+		return applyOperation(m, JsonProcessor.Operation.UNION);
 	}
 
 	@Override
 	public IModel sub(IModel m)
 	{
-		throw new UnsupportedOperationException("Unimplemented method 'sub'");
+		return applyOperation(m, JsonProcessor.Operation.SUBTRACTION);
 	}
 
 	@Override
-	public IModel overrideFrom(IModel m)
+	public IModel intersect(IModel m)
 	{
-		throw new UnsupportedOperationException("Unimplemented method 'overrideFrom'");	
+		return applyOperation(m, JsonProcessor.Operation.INTERSECTION);
 	}
 
 	@Override
-	public IModel enrichFrom(IModel m)
+	public IModel xor(IModel m)
 	{
-		throw new UnsupportedOperationException("Unimplemented method 'enrichFrom'");
+		return applyOperation(m, JsonProcessor.Operation.XOR);
 	}
 
 }

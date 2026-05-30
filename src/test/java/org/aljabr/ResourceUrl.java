@@ -4,6 +4,7 @@ public abstract class ResourceUrl
 {
 	public static final String user_core_model = "user_core_model.json";
 	public static final String user_extended_model = "user_extended_model.json";
+	public static final String user_core_add_extended = "user_core_add_extended.json";
 	public static final String user_db_model = "user_db_model.json";
 	public static final String json_processor_source1 = "processor/source1.json";
 	public static final String json_processor_source2 = "processor/source2.json";

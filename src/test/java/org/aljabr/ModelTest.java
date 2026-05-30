@@ -18,12 +18,14 @@ public class ModelTest
 	public static String user_core_string;
 	public static String user_extended_string;
 	public static String user_db_string;
-	
+	public static String user_core_add_extended_string;
+
 	public ModelTest() throws IOException
 	{
 		user_core_string = ResourceLoader.loadResourceAsString(ResourceUrl.user_core_model);
 		user_extended_string = ResourceLoader.loadResourceAsString(ResourceUrl.user_extended_model);
 		user_db_string = ResourceLoader.loadResourceAsString(ResourceUrl.user_db_model);
+		user_core_add_extended_string = ResourceLoader.loadResourceAsString(ResourceUrl.user_core_add_extended);
 	}
 	
 	
@@ -104,13 +106,14 @@ public class ModelTest
 		}
 	}
 	
-	// not ready yet @Test
-	public void testAdd() throws InvalidArgumentException
+	@Test
+	void testAdd() throws InvalidArgumentException
 	{
 		IModel sum = Model.from(user_core_string).add(Model.from(user_extended_string));
-		sum.fieldsAsStream().map(field -> field.getName()).forEach(name -> {
-            System.out.println("Field: " + name);
-        });
+		assertEquals(
+			user_core_add_extended_string.replaceAll("\\s+", ""),
+			sum.toJson().replaceAll("\\s+", "")
+		);
 	}
 	
 	

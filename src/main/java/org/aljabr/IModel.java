@@ -14,9 +14,9 @@ public interface IModel {
 
 	IModel sub(IModel m);
 
-	IModel overrideFrom(IModel m);
+	IModel intersect(IModel m);
 
-	IModel enrichFrom(IModel m);
+	IModel xor(IModel m);
 
 	Stream<Field> fieldsAsStream();
 	Map<String, Field> fieldsAsMap();

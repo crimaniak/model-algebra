@@ -64,6 +64,15 @@ public class JsonProcessor
 		public abstract Set<String> combine(Set<String> target, Set<String> source);
 	}
 
+	private boolean isNamedArray(JsonNode node)
+	{
+		if (!node.isArray()) return false;
+		java.util.Iterator<JsonNode> elements = node.elements();
+		if (!elements.hasNext()) return false;
+		JsonNode first = elements.next();
+		return first.isObject() && first.has("name");
+	}
+
 	public Optional<ContainerNode> getContainerForNode(JsonNode node)
     {
 		return Coalesce.of(
@@ -91,11 +100,12 @@ public class JsonProcessor
 
 			if (targetValue != null && sourceValue != null)
 			{
-				if (targetValue.isObject() && sourceValue.isObject())
+				if ((targetValue.isObject() && sourceValue.isObject()) ||
+					(targetValue.isArray() && sourceValue.isArray() && isNamedArray(targetValue) && isNamedArray(sourceValue)))
 					result.set(fieldName, processLevel(targetValue, sourceValue, operation));
 				else
 					result.set(fieldName, targetValue);
-			} else 
+			} else
 				result.set(fieldName, targetValue != null ? targetValue : sourceValue);
 			
 		}
